@@ -17,7 +17,7 @@ router.get('/', function (req, res, next) {
  *Method : GET
  *URL Params : Required :id[Number]
  *Response Codes : Success(200 OK)
- *Response : {id: , color: , vin: , doorCount: }
+ *Response : {"vin": "1213231", "color": "Metallic Silver", "doorCount": 4, "driveTrain": "v8"}
  **/
 router.get('/:id', function (req, res) {
     var options = getGMOptionsValue(req.params.id, 'getVehicleInfoService');
@@ -37,7 +37,7 @@ router.get('/:id', function (req, res) {
                 doorCount = Number(4);
             }
             var color = data.color.value;
-            var responseJson = {id: req.params.id, color: color, vin: vin, doorCount: doorCount};
+            var responseJson = {vin: vin, color: color, doorCount: doorCount, driveTrain: driveTrain};
             res.send(responseJson);
         }
     });
@@ -49,7 +49,13 @@ router.get('/:id', function (req, res) {
  *Method : GET
  *URL Params : Required :id[Number]
  *Response Codes : Success(200 OK)
- *Response :
+ *Response ://Array of values
+ [
+  {
+    "location": "frontLeft",
+    "locked": true
+  }
+]
  **/
 router.get('/:id/doors', function (req, res) {
     var options = getGMOptionsValue(req.params.id, 'getSecurityStatusService');
@@ -80,7 +86,7 @@ router.get('/:id/doors', function (req, res) {
  *Method : GET
  *URL Params : Required :id[Number]
  *Response Codes : Success(200 OK)
- *Response :
+ *Response :{"percent": 30}
  **/
 router.get('/:id/fuel', function (req, res) {
     var options = getGMOptionsValue(req.params.id, 'getEnergyService');
@@ -111,7 +117,7 @@ router.get('/:id/fuel', function (req, res) {
  *Method : GET
  *URL Params : Required :id[Number]
  *Response Codes : Success(200 OK)
- *Response :
+ *Response :{"percent": 50}
  **/
 router.get('/:id/battery', function (req, res) {
 
@@ -142,7 +148,7 @@ router.get('/:id/battery', function (req, res) {
  *Method : POST
  *URL Params : Required :id[Number]
  *Response Codes : Success(200 OK)
- *Response :
+ *Response : {"status": "success|error" }
  **/
 router.post('/:id/engine', function (req, res) {
     if (req.body.action !== "START" && req.body.action !== "STOP") {

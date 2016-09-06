@@ -1,4 +1,4 @@
-var vehicle = require("../routes/vehicle");
+var vehicle = require("../routes/vehicles");
 var request = require('request');
 var chai = require('chai');
 var chaiHttp = require('chai-http');
@@ -25,10 +25,11 @@ describe('/GET/:id vehicle', function () {
             .get('/vehicles/' + 1234)
             .end(function (err, res) {
                 res.should.have.status(200);
-                res.body.should.have.keys(['id', 'vin', 'color', 'doorCount' ]);
+                res.body.should.have.keys(['vin', 'color', 'doorCount', 'driveTrain' ]);
                 res.body.vin.should.be.a('string');
                 res.body.color.should.be.a('string');
                 res.body.doorCount.should.be.a('number');
+                res.body.driveTrain.should.be.a('string');
                 done();
             });
     });
@@ -52,8 +53,6 @@ describe('/GET/:id/doors vehicle', function () {
                 res.should.have.status(200);
                 res.should.be.json;
                 res.body.should.be.a('array');
-                console.log(res.body);
-                res.body.should.have.keys([[0]['location'], [0]['locked']]);
                 //should(res.body).should.have.deep.property('location');
                 //res.body.should.have.deep.property('locked');
                 done();
